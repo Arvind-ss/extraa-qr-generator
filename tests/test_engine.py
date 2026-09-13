@@ -289,3 +289,68 @@ def test_profile_rejects_an_absurd_text_size():
                          ("name_tracking", 999), ("name_size", "big")):
         with pytest.raises(ProfileError):
             Profile.from_dict({**base, field: value})
+
+
+# --- temporary files --------------------------------------------------------
+# A cancelled or completed batch cleans up after itself; these cover the runs
+# that never got the chance. A killed 50,000-row job leaves ~2.2 GB behind.
+
+def test_sweep_removes_abandoned_job_directories(tmp_path, monkeypatch):
+    import time
+
+    monkeypatch.setattr(engine, "TEMP_ROOT", str(tmp_path))
+    old = tmp_path / "job-abandoned"
+    old.mkdir()
+    (old / "A00001.png").write_bytes(b"x" * 1024)
+    ancient = time.time() - engine.STALE_AFTER_HOURS * 3600 - 60
+    os.utime(old, (ancient, ancient))
+
+    recent = tmp_path / "job-running"
+    recent.mkdir()
+    (recent / "A00002.png").write_bytes(b"x")
+
+    assert engine.sweep_stale() == 1
+    assert not old.exists(), "abandoned job was not removed"
+    assert recent.exists(), "a job that may still be running was removed"
+
+
+def test_sweep_never_touches_a_job_in_progress(tmp_path, monkeypatch):
+    """The longest measured run is under four minutes; the window is six hours."""
+    monkeypatch.setattr(engine, "TEMP_ROOT", str(tmp_path))
+    live = tmp_path / "job-live"
+    live.mkdir()
+    assert engine.sweep_stale() == 0
+    assert live.exists()
+
+
+def test_sweep_is_safe_when_nothing_has_ever_run(tmp_path, monkeypatch):
+    monkeypatch.setattr(engine, "TEMP_ROOT", str(tmp_path / "never-created"))
+    assert engine.sweep_stale() == 0
+
+
+def test_sweep_ignores_files_beside_the_job_directories(tmp_path, monkeypatch):
+    import time
+
+    monkeypatch.setattr(engine, "TEMP_ROOT", str(tmp_path))
+    stray = tmp_path / "something.txt"
+    stray.write_text("not ours")
+    ancient = time.time() - 999 * 3600
+    os.utime(stray, (ancient, ancient))
+    assert engine.sweep_stale() == 0
+    assert stray.exists()
+
+
+def test_a_finished_batch_leaves_nothing_behind(tmp_path, monkeypatch):
+    monkeypatch.setattr(engine, "TEMP_ROOT", str(tmp_path / "root"))
+    path = make_csv(tmp_path, codes(5))
+    engine.generate_batch(PROFILE, path, str(tmp_path / "c.zip"))
+    assert os.listdir(tmp_path / "root") == []
+
+
+def test_a_cancelled_batch_leaves_nothing_behind(tmp_path, monkeypatch):
+    monkeypatch.setattr(engine, "TEMP_ROOT", str(tmp_path / "root"))
+    path = make_csv(tmp_path, codes(300))
+    result = engine.generate_batch(PROFILE, path, str(tmp_path / "c.zip"),
+                                   should_cancel=lambda: True)
+    assert result.cancelled
+    assert os.listdir(tmp_path / "root") == []
