@@ -70,6 +70,32 @@ def load(path=None):
     return settings
 
 
+def save(settings, path=None):
+    """Write the per-user configuration, readable by nobody else.
+
+    Created 0600 from the start rather than chmod'ed afterwards: between the
+    two there is a moment where a credential sits in a world-readable file.
+    Values already supplied by the environment are not written, so a machine
+    configured by IT through env vars is not quietly duplicated into a file.
+    """
+    path = path or config_path()
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    from_env = {key for key, variable in ENV.items() if os.environ.get(variable)}
+    body = {k: v for k, v in settings.items() if v and k not in from_env}
+
+    temporary = path + ".tmp"
+    handle = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    try:
+        with os.fdopen(handle, "w", encoding="utf-8") as fh:
+            json.dump(body, fh, indent=2)
+        os.replace(temporary, path)
+    except BaseException:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+        raise
+    return path
+
+
 def redacted(settings):
     """A copy safe to print, log, or put in a bug report."""
     return {k: ("<set>" if k in SECRET_KEYS and v else v)

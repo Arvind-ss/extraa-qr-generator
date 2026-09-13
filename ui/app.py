@@ -57,7 +57,7 @@ class Screen(ttk.Frame):
 
 
 class App(tk.Tk):
-    WIDTH, HEIGHT = 1080, 720
+    WIDTH, HEIGHT = 1120, 720
 
     def __init__(self):
         super().__init__()

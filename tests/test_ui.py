@@ -577,3 +577,77 @@ def test_the_status_line_says_how_old_offline_profiles_are(app):
 
     store.fetched_at = None
     assert "Offline" in store.status
+
+
+# --- settings ---------------------------------------------------------------
+
+def test_settings_are_reachable_without_environment_variables(app, tmp_path):
+    """The deployment gap this screen closes: a support user double-clicks an
+    application, they do not export shell variables first."""
+    from qrgen import config
+    from ui.screens.settings import SettingsScreen
+
+    app._screen.start()
+    app.update_idletasks()
+    assert any("Settings" in text for text in texts(app._screen))
+
+    app.show(SettingsScreen)
+    app.update_idletasks()
+    screen = app._screen
+    screen.fields["api_url"].set("https://hasura.test/v1/graphql")
+    screen.fields["token"].set("a-token")
+
+    path = str(tmp_path / "config.json")
+    config.save(screen._current(), path)
+    written = config.load(path)
+    assert written["api_url"] == "https://hasura.test/v1/graphql"
+    assert written["token"] == "a-token"
+
+
+def test_the_saved_file_is_not_readable_by_anyone_else(tmp_path):
+    import stat
+
+    from qrgen import config
+
+    path = str(tmp_path / "config.json")
+    config.save({"api_url": "https://x.test", "token": "secret"}, path)
+    mode = stat.S_IMODE(os.stat(path).st_mode)
+    assert mode == 0o600, f"config saved as {mode:o}"
+    # And the loader agrees it is safe to read.
+    assert config.load(path)["token"] == "secret"
+
+
+def test_environment_values_are_not_duplicated_into_the_file(tmp_path, monkeypatch):
+    """A machine configured by IT through env vars should not end up with a
+    second, stale copy of the same credential on disk."""
+    from qrgen import config
+
+    monkeypatch.setenv("EXTRAA_QR_TOKEN", "from-the-environment")
+    path = str(tmp_path / "config.json")
+    config.save({"api_url": "https://x.test", "token": "from-the-environment"},
+                path)
+    monkeypatch.delenv("EXTRAA_QR_TOKEN")
+    assert "token" not in config.load(path)
+
+
+def test_empty_settings_are_not_written(tmp_path):
+    from qrgen import config
+
+    path = str(tmp_path / "config.json")
+    config.save({"api_url": "https://x.test", "token": "", "admin_secret": ""},
+                path)
+    assert set(config.load(path)) == {"api_url"}
+
+
+def test_test_connection_reports_a_failure_without_saving(app):
+    from ui.screens.settings import SettingsScreen
+
+    app._screen.start()
+    app.show(SettingsScreen)
+    app.update_idletasks()
+    screen = app._screen
+    screen.fields["api_url"].set("https://nowhere.invalid/v1/graphql")
+    screen.test()
+    assert _wait(app, lambda: "✗" in screen.result.cget("text")
+                 or "Connected" in screen.result.cget("text"), seconds=30)
+    assert "✗" in screen.result.cget("text")

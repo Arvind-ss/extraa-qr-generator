@@ -68,10 +68,20 @@ class DashboardScreen(Screen):
                         "Create and edit generation profiles"
                         if allowed else "Admin access required",
                         self.open_profiles, enabled=allowed)
-        profiles.pack(side="left")
+        profiles.pack(side="left", padx=(0, t.XL))
         profiles.configure(width=360, height=180)
         profiles.pack_propagate(False)
+
+        settings = Tile(holder, "Settings",
+                        "Where profiles are shared from", self.open_settings)
+        settings.pack(side="left")
+        settings.configure(width=280, height=180)
+        settings.pack_propagate(False)
 
     def open_profiles(self):
         from ui.screens.profiles import ProfileListScreen
         self.app.show(ProfileListScreen)
+
+    def open_settings(self):
+        from ui.screens.settings import SettingsScreen
+        self.app.show(SettingsScreen)
