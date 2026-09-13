@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+build/
+dist/
+.pytest_cache/
+
+# Local machine configuration: API URL and credentials. Never committed.
+config.json
+.env

@@ -1,0 +1,14 @@
+[
+  {
+    "email": "admin@example.com",
+    "name": "Support Lead",
+    "role": "admin",
+    "password": "pbkdf2_sha256$200000$qSs+g1CkpilQm5ExhRdUCw==$UoiAk6OF1XO+COLos5nIP+Tt0saQX03Ye3Bqn0ocvV8="
+  },
+  {
+    "email": "support@example.com",
+    "name": "Support User",
+    "role": "support",
+    "password": "pbkdf2_sha256$200000$mOrWvnuokCrclOmpmdIIQg==$pAe/HIgvS0e/jpD74iM1hICg8UTXIFai+Z8cl6bfM+s="
+  }
+]

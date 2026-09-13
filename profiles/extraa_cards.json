@@ -1,0 +1,31 @@
+{
+  "id": "extraa_cards",
+  "name": "Extraa Cards",
+  "renderer": "standard",
+  "required_columns": [
+    "name",
+    "qr_code"
+  ],
+  "qr_content": "https://www.extraacards.com/cards/{qr_code}",
+  "top_text": "{name}",
+  "bottom_text": "{qr_code}",
+  "filename": "{qr_code}.png",
+  "output_format": "jpeg",
+  "unique_columns": [
+    "qr_code"
+  ],
+  "validation": {
+    "qr_code": {
+      "length": 6,
+      "charset": "alnum"
+    }
+  },
+  "active": true,
+  "version": 1,
+  "name_size": 48,
+  "code_size": 80,
+  "name_tracking": 5,
+  "code_tracking": 0,
+  "name_font": "rob.ttf",
+  "code_font": "rob.ttf"
+}

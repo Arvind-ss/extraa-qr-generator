@@ -1,0 +1,102 @@
+[
+  {
+    "file": "B0004_3YDNGV.png",
+    "qr_content": "https://www.extraacards.com/cards/3YDNGV",
+    "bottom_text": "3YDNGV",
+    "top_text": "26-B0004-500",
+    "sha256": "6bfa42109cabc9b2e610e32a872d9749571f50db643086949cf80d05da744fd7",
+    "bytes": 44493,
+    "note": "extraa cards, name len 12",
+    "renderer": "standard"
+  },
+  {
+    "file": "B0004_9CSUAY.png",
+    "qr_content": "https://www.extraacards.com/cards/9CSUAY",
+    "bottom_text": "9CSUAY",
+    "top_text": "26-B0004-99",
+    "sha256": "b1688ce2d837d7ac863416be6334ad5810a48536f588aaaf5873eb4edb210c65",
+    "bytes": 43699,
+    "note": "extraa cards, name len 11",
+    "renderer": "standard"
+  },
+  {
+    "file": "B0004_MESFQE.png",
+    "qr_content": "https://www.extraacards.com/cards/MESFQE",
+    "bottom_text": "MESFQE",
+    "top_text": "26-B0004-9",
+    "sha256": "b754f6400d61cf18c1291d5d40ec735b9c8042bf3c6876acfa4ca33e05a0704e",
+    "bytes": 42359,
+    "note": "extraa cards, name len 10",
+    "renderer": "standard"
+  },
+  {
+    "file": "B0005_4HSHPZ.png",
+    "qr_content": "https://www.extraacards.com/cards/4HSHPZ",
+    "bottom_text": "4HSHPZ",
+    "top_text": "26-B0005-500",
+    "sha256": "11acfd0e6bef68f0177a1956aafaa8211599676ccd05327053a411673b501e54",
+    "bytes": 43737,
+    "note": "extraa cards, name len 12",
+    "renderer": "standard"
+  },
+  {
+    "file": "B0006_427CW5.png",
+    "qr_content": "https://www.extraacards.com/cards/427CW5",
+    "bottom_text": "427CW5",
+    "top_text": "26-B0006-500",
+    "sha256": "40a11b3e057c94e5661ec21161c68ad66865958f455d968ab45cf288ed0e8a08",
+    "bytes": 45291,
+    "note": "extraa cards, name len 12",
+    "renderer": "standard"
+  },
+  {
+    "file": "B0007_23RQFD.png",
+    "qr_content": "https://www.extraacards.com/cards/23RQFD",
+    "bottom_text": "23RQFD",
+    "top_text": "26-B0007-296",
+    "sha256": "2c9339ce0104baa3ac1469b7e5b8bc36c3e86b7dfc6c44bb393c1373a9e75e0d",
+    "bytes": 44388,
+    "note": "extraa cards, name len 12",
+    "renderer": "standard"
+  },
+  {
+    "file": "Brigade_RDFXRN.png",
+    "qr_content": "https://www.extraacards.com/cards/RDFXRN",
+    "bottom_text": "RDFXRN",
+    "top_text": "26-B0008-1",
+    "sha256": "5aa5be7844b0266c60b7510e1eca79516a26426734451b9da9bd7bdde38688b3",
+    "bytes": 42907,
+    "note": "extraa cards, brigade reference row",
+    "renderer": "standard"
+  },
+  {
+    "file": "sample_copy_036315.png",
+    "qr_content": "https://www.extraacards.com/cards/036315",
+    "bottom_text": "036315",
+    "top_text": "26-B0123-3331",
+    "sha256": "9c6e01bb3f93f77d4be82f1ed2b4c2b0822533c4aeec3f624071fa2730a6d8ae",
+    "bytes": 45561,
+    "note": "extraa cards, numeric code + long name",
+    "renderer": "standard"
+  },
+  {
+    "file": "Inai_250_POS_Qrs_Inai_001.png",
+    "qr_content": "Inai_001",
+    "bottom_text": "Inai_001",
+    "top_text": null,
+    "sha256": "dddda14518f8558c61d7db11673fad6f902eff40695fb573a4f2c8ff8cf9e430",
+    "bytes": 28628,
+    "note": "POS machine, no top row. Produced by the OLDER qr_gen.py renderer (fixed crop to 600x640, no square-padding step), NOT by qr_gen_3.py. Verified byte-identical against qr_gen.py. Kept as the reference corpus for the v1 renderer if POS is ever migrated.",
+    "renderer": "standard_v1"
+  },
+  {
+    "file": "Inai_250_POS_Qrs_Inai_002.png",
+    "qr_content": "Inai_002",
+    "bottom_text": "Inai_002",
+    "top_text": null,
+    "sha256": "322c8ba0ed97b5ed734f28aa9ba5d912438ac3b7692459bbcf22f5e60ca33bc3",
+    "bytes": 28604,
+    "note": "POS machine, no top row. Produced by the OLDER qr_gen.py renderer (fixed crop to 600x640, no square-padding step), NOT by qr_gen_3.py. Verified byte-identical against qr_gen.py. Kept as the reference corpus for the v1 renderer if POS is ever migrated.",
+    "renderer": "standard_v1"
+  }
+]

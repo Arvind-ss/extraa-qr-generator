@@ -1,0 +1,10 @@
+# Pinned exactly. These versions are part of the output contract: Pillow 10.1.0
+# vs 11.3.0 moves 131 pixels on a 660x660 card. Do not bump without re-running
+# tests/test_renderer_golden.py against the full corpus.
+pillow==11.3.0
+qrcode==8.2
+
+# Built and tested on Python 3.13.15 with Tk 9.0.4 (brew install python@3.13
+# python-tk@3.13). Python 3.9's system Tk is 8.5.9, which has no Retina support
+# and renders the UI blurry. Output is byte-identical across both interpreters --
+# Pillow's version is what matters, not Python's.

@@ -1,0 +1,11 @@
+[project]
+name = "extraa-qr-generator"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+markers = [
+    "current_sizes: checks today's printed text sizes, not the historical ones",
+]
